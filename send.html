@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>Sending</title>
+<body style="font:16px system-ui;background:#0F3A2C;color:#F3EBDA;display:grid;place-items:center;height:100vh;margin:0">
+<p id="s">Preparing video…</p>
+<script>
+(async()=>{
+  const s=document.getElementById('s');
+  try{
+    const b=await (await fetch('assets/video/preview.mp4',{cache:'no-store'})).blob();
+    if(!window.opener){ s.textContent='No opener'; return; }
+    window.opener.postMessage({kind:'tr-video', blob:b, name:'Trending-Realty-website-preview.mp4'}, 'https://web.whatsapp.com');
+    s.textContent='Sent to WhatsApp tab ('+(b.size/1e6).toFixed(1)+' MB). You can close this tab.';
+    setTimeout(()=>window.close(),1500);
+  }catch(e){ s.textContent='Error: '+e; }
+})();
+</script>
